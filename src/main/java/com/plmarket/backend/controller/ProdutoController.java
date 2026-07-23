@@ -29,4 +29,30 @@ public class ProdutoController {
         Produto novoProduto = produtoRepository.save(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
+        return produtoRepository.findById(id)
+                .map(produtoExistente -> {
+                    produtoExistente.setNome(produtoAtualizado.getNome());
+                    produtoExistente.setDescricao(produtoAtualizado.getDescricao());
+                    produtoExistente.setPreco(produtoAtualizado.getPreco());
+                    produtoExistente.setCategoria(produtoAtualizado.getCategoria());
+                    produtoExistente.setImagemUrl(produtoAtualizado.getImagemUrl());
+                    
+                    Produto salvo = produtoRepository.save(produtoExistente);
+                    return ResponseEntity.ok(salvo);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
+        if (!produtoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        produtoRepository.deleteById(id);
+        return ResponseEntity.noContent().build(); // Retorna Status 204 (Sucesso sem conteúdo)
+    }
 }
