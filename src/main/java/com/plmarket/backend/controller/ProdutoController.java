@@ -6,11 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/produtos")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class ProdutoController {
 
     private final ProdutoRepository produtoRepository;
@@ -53,6 +57,6 @@ public class ProdutoController {
         }
         
         produtoRepository.deleteById(id);
-        return ResponseEntity.noContent().build(); // Retorna Status 204 (Sucesso sem conteúdo)
+        return ResponseEntity.noContent().build(); 
     }
 }
