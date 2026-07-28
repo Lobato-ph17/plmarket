@@ -2,15 +2,12 @@ package com.plmarket.backend.controller;
 
 import com.plmarket.backend.model.Produto;
 import com.plmarket.backend.repository.ProdutoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/produtos")
@@ -23,8 +20,9 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> listarProdutos() {
-        return produtoRepository.findAll();
+    public Page<Produto> listarProdutos(
+            @PageableDefault(page = 0, size = 6, sort = "id") Pageable pageable) {
+        return produtoRepository.findAll(pageable);
     }
 
     @PostMapping
