@@ -1,4 +1,4 @@
-package com.plmarket.backend.config; // 👈 Ajuste para o nome correto do seu pacote
+package com.plmarket.backend.config; 
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,9 +10,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://plmarket.netlify.app", "http://localhost:3000", "http://localhost:5173")
+                .allowedOriginPatterns("https://plmarket.netlify.app", "http://localhost:5173")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
-}
+}   
